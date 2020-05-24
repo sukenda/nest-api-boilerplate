@@ -10,21 +10,21 @@ export abstract class BaseEntity {
   id: string;
 
   @Column({ type: 'boolean', default: true })
-  isActive: boolean;
+  active: boolean;
 
   @Column({ type: 'boolean', default: false })
-  isArchived: boolean;
+  archived: boolean;
 
   @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  createDateTime: Date;
+  createdTime: Date;
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300})
   createdBy: string;
 
   @UpdateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-  updatedDateTime: Date;
+  updatedTime: Date;
 
-  @Column({ type: 'varchar', length: 300 })
+  @Column({ type: 'varchar', length: 300})
   updatedBy: string;
 
 }

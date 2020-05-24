@@ -1,6 +1,5 @@
 export interface Payload {
   username: string;
-  seller: boolean;
-  iat?: number;
+  profileName?: string;
   expiresIn?: string;
 }

@@ -5,9 +5,11 @@
   "username": "sukenda",
   "password": "sukenda",
   "database": "nest_api_boilerplate",
-  "schema": "nest_api",
-  "synchronize": true,
+  "schema": "nest_boilerplate",
+  "synchronize": false,
   "logging": true,
+  "migrationsRun": false,
+  "cache": false,
   "entities": [
     "**/*.entity{.ts,.js}"
   ],

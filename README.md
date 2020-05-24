@@ -1,2 +1,2 @@
-# npm run typeorm:migration:generate -- init
-# npm run typeorm:migration:run
+# npm run typeorm:migration -- init
+# npm run typeorm:run

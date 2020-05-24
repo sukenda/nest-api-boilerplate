@@ -25,6 +25,10 @@ class ConfigService {
     return this.getValue('PORT', true);
   }
 
+  public getKeySecret() {
+    return this.getValue('JWT_KEY_SECRET', true);
+  }
+
   public isProduction() {
     const mode = this.getValue('MODE', false);
     return mode != 'DEV';
@@ -39,8 +43,10 @@ class ConfigService {
       password: this.getValue('POSTGRES_PASSWORD'),
       database: this.getValue('POSTGRES_DATABASE'),
       schema: this.getValue('POSTGRES_SCHEMA'),
-      synchronize: true,
+      synchronize: false,
       logging: true,
+      migrationsRun: false, // Disable run migrations automatically,
+      cache: false,
 
       entities: ['**/*.entity{.ts,.js}'],
 

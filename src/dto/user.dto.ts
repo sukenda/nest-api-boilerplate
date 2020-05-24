@@ -1,6 +1,7 @@
 import { IsString, IsUUID } from 'class-validator';
 import { User } from '../model/user.entity';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
+import { v4 as uuidv4 } from 'uuid';
 
 export class UserDto implements Readonly<UserDto> {
 
@@ -16,11 +17,11 @@ export class UserDto implements Readonly<UserDto> {
   @IsString()
   password: string;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty({ required: false })
   @IsString()
   email: string;
 
-  @ApiModelProperty({ required: true })
+  @ApiModelProperty({ required: false })
   @IsString()
   profileName: string;
 
@@ -29,8 +30,8 @@ export class UserDto implements Readonly<UserDto> {
     it.id = dto.id;
     it.username = dto.username;
     it.password = dto.password;
-    it.email = dto.email;
-    it.profileName = dto.profileName;
+    it.email = dto.email ? dto.email : 'Guest@gmail.com';
+    it.profileName = dto.profileName ? dto.profileName : 'Guest';
     return it;
   }
 
@@ -38,7 +39,6 @@ export class UserDto implements Readonly<UserDto> {
     return this.from({
       id: entity.id,
       username: entity.username,
-      password: entity.password,
       email: entity.email,
       profileName: entity.profileName,
     });
@@ -51,9 +51,9 @@ export class UserDto implements Readonly<UserDto> {
     it.password = this.password;
     it.email = this.email;
     it.profileName = this.profileName;
-    it.createDateTime = new Date();
-    it.createdBy = user ? user.id : null;
-    it.updatedBy = user ? user.id : null;
+    it.createdTime = new Date();
+    it.createdBy = user ? user.id : uuidv4();
+    it.updatedBy = user ? user.id : uuidv4();
     return it;
   }
 }

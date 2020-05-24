@@ -1,7 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { User } from '../model/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -9,21 +11,39 @@ export class UserService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
   }
 
-  async findByUsername(username: string): Promise<User> {
-    return await this.userRepository.findOne({
+  async doLogin(username: string, password: string) {
+    const user = await this.userRepository.findOne({
       where: {
         username: username,
       },
     });
-  }
 
-  async register(user: User): Promise<User> {
-    const current = await this.findByUsername(user.username);
-    if (current) {
-      return null;
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
     }
 
-    return await this.userRepository.save(user);
+    if (await user.validatePassword(password)) {
+      return user;
+    } else {
+      throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+    }
+  }
+
+  async findByUsername(username: string) {
+    return await this.userRepository.findOne({ username: username });
+  }
+
+  async doRegister(param: UserDto) {
+    const userDto = UserDto.from(param);
+    const user = await this.userRepository.findOne({
+      username: userDto.username,
+    });
+
+    if (user) {
+      throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this.userRepository.save(userDto.toEntity());
   }
 
 }
