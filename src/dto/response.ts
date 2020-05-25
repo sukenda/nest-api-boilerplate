@@ -2,6 +2,8 @@ export class Response {
 
   accessToken?: string;
 
+  refreshToken?: string;
+
   message?: string;
 
   statusCode?: number;
@@ -10,6 +12,7 @@ export class Response {
 
   constructor(builder: ResponseBuilder) {
     this.accessToken = builder.accessToken;
+    this.refreshToken = builder.refreshToken;
     this.message = builder.message;
     this.statusCode = builder.statusCode;
     this.data = builder.data;
@@ -19,6 +22,7 @@ export class Response {
 
 export class ResponseBuilder {
   private _accessToken: string;
+  private _refreshToken: string;
   private _message: string;
   private _statusCode: number = 0;
   private _data: any;
@@ -33,6 +37,15 @@ export class ResponseBuilder {
 
   setAccessToken(token: string) {
     this._accessToken = token;
+    return this;
+  }
+
+  get refreshToken(): string {
+    return this._refreshToken;
+  }
+
+  setRefreshToken(token: string) {
+    this._refreshToken = token;
     return this;
   }
 

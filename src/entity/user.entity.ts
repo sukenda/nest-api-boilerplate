@@ -17,8 +17,11 @@ export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar', length: 255 })
   profileName: string;
 
-  @Column("varchar", { array: true })
+  @Column('varchar', { array: true })
   roles: string[];
+
+  @Column({ type: 'text', nullable: true })
+  refreshToken: string;
 
   @BeforeInsert()
   async hashPassword() {

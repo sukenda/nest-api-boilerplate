@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto } from '../dto/user.dto';
 import { UserService } from '../shared/user.service';
@@ -24,15 +24,35 @@ export class AuthController {
   public async login(@Body() param: UserDto) {
     const user = await this.userService.doLogin(param.username, param.password);
     const payload: Payload = {
+      id: user.id,
       roles: user.roles,
       username: user.username,
-      profileName: user.profileName,
     };
 
     const token = await this.authService.generateToken(payload);
     return new ResponseBuilder()
-      .setAccessToken(token)
+      .setAccessToken(token.accessToken)
+      .setRefreshToken(token.refreshToken)
       .setMessage('Login Success')
+      .setStatusCode(HttpStatus.OK)
+      .setData(UserDto.fromEntity(user))
+      .build();
+  }
+
+  @Get('refresh-token')
+  public async refreshToken(@Query('refreshToken') refreshToken: string) {
+    const user = await this.authService.refreshToken(refreshToken);
+    const payload: Payload = {
+      id: user.id,
+      roles: user.roles,
+      username: user.username,
+    };
+
+    const token = await this.authService.generateToken(payload);
+    return new ResponseBuilder()
+      .setAccessToken(token.accessToken)
+      .setRefreshToken(token.refreshToken)
+      .setMessage('Refresh Token Success')
       .setStatusCode(HttpStatus.OK)
       .setData(UserDto.fromEntity(user))
       .build();
@@ -42,15 +62,16 @@ export class AuthController {
   public async register(@Body() param: UserDto) {
     const user = await this.userService.doRegister(param);
     const payload: Payload = {
+      id: user.id,
       roles: user.roles,
       username: user.username,
-      profileName: user.profileName,
     };
 
     const token = await this.authService.generateToken(payload);
     return new ResponseBuilder()
-      .setAccessToken(token)
-      .setMessage('Login Success')
+      .setAccessToken(token.accessToken)
+      .setRefreshToken(token.refreshToken)
+      .setMessage('Register Success')
       .setStatusCode(HttpStatus.OK)
       .setData(UserDto.fromEntity(user))
       .build();

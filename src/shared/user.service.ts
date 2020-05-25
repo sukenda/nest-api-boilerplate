@@ -3,6 +3,7 @@ import { UserEntity } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
+import { Payload } from '../dto/payload';
 
 @Injectable()
 export class UserService {
@@ -30,6 +31,22 @@ export class UserService {
 
   async findByUsername(username: string) {
     return await this.userRepository.findOne({ username: username });
+  }
+
+  async findByPayload(payload: Payload) {
+    return await this.userRepository.findOne({ username: payload.username });
+  }
+
+  async updateRefreshToken(refreshToken: string, id: String) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    user.refreshToken = refreshToken; // Update refresh token
+
+    return await this.userRepository.update(user.id, user);
   }
 
   async doRegister(param: UserDto) {

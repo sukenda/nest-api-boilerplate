@@ -20,6 +20,11 @@ Content-Type: application/json
   "password": "admin"
 }
 
+### Refresh Token
+GET http://localhost:3000/auth/refresh-token?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI1YWFjNzcxLTg0MGQtNDJmYy05ODI0LTViMzMzNjI5NmExNyIsInJvbGVzIjpbIkFETUlOIiwiVEVBQ0hFUiJdLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNTkwNDI2NDM0LCJleHAiOjE1OTMwMTg0MzR9.lsLVGaAGpH9I2YLZMrMjJxhZ1oAQpKTVtVoOXxZkOPI
+Accept: application/json
+
+
 ### Role
 GET http://localhost:3000/auth/roles
 Accept: application/json
