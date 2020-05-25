@@ -3,7 +3,7 @@ import { BaseEntity } from './base.entity';
 import * as bcrypt from 'bcrypt';
 
 @Entity({ name: 'user' })
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255, unique: true })
   username: string;
@@ -16,6 +16,9 @@ export class User extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255 })
   profileName: string;
+
+  @Column("varchar", { array: true })
+  roles: string[];
 
   @BeforeInsert()
   async hashPassword() {

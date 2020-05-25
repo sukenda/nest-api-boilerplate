@@ -1,37 +1,67 @@
-import * as _ from 'lodash';
 import { createConnection, ConnectionOptions } from 'typeorm';
 import { configService } from '../config/config.service';
-import { UserService } from '../shared/user.service';
-import { UserDto } from '../dto/user.dto';
-import { User } from '../model/user.entity';
+import { MenuEntity } from '../entity/menu.entity';
+import { RoleDto } from '../dto/role.dto';
+import { MenuDto } from '../dto/menu.dto';
+import { RoleEntity } from '../entity/role.entity';
 
 async function run() {
 
-  const seedId = Date.now()
-    .toString()
-    .split('')
-    .reverse()
-    .reduce((s, it, x) => (x > 3 ? s : (s += it)), '');
-
-  const opt = {
+  const connectionOptions = {
     ...configService.getTypeOrmConfig(),
     debug: true,
   };
 
-  const connection = await createConnection(opt as ConnectionOptions);
-  const userService = new UserService(connection.getRepository(User));
+  const connection = await createConnection(connectionOptions as ConnectionOptions);
+  const menuService = connection.getRepository(MenuEntity);
+  const roleService = connection.getRepository(RoleEntity);
 
-  const work = _.range(1, 25)
-    .map(n => UserDto.from({
-      username: `Seed ${seedId}-${n}`,
-      password: `Seed ${seedId}-${n}`,
-      email: `Seed${seedId}-${n}@gmail.com`,
-      profileName: `User dari generate ke ${n}`,
-    }))
-    .map(dto => userService.register(dto)
-      .then(r => (console.log('done ->', r.email), r)));
+  // 'ADMIN', 'STUDENT', 'TEACHER', 'GUEST'
+  const roles = [
+    {
+      name: 'ADMIN',
+      code: 'ADMIN',
+    },
+    {
+      name: 'STUDENT',
+      code: 'STUDENT',
+    },
+    {
+      name: 'TEACHER',
+      code: 'TEACHER',
+    },
+    {
+      name: 'GUEST',
+      code: 'GUEST',
+    },
+  ];
 
-  return await Promise.all(work);
+  const menus = [
+    {
+      name: 'Dashboard',
+      url: '/index',
+    },
+    {
+      name: 'Setting',
+      url: '/setting',
+    },
+    {
+      name: 'Teachers',
+      url: '/teachers',
+    },
+    {
+      name: 'Students',
+      url: '/students',
+    },
+  ];
+
+  const insertRoles = roles.map(role => roleService.save(RoleDto.from(role).toEntity())
+    .then(r => (console.log('done ->', r.name), r)));
+
+  const insertMenus = menus.map(menu => menuService.save(MenuDto.from(menu).toEntity())
+    .then(r => (console.log('done ->', r.name), r)));
+
+  return await Promise.all([insertRoles, insertMenus]);
 }
 
 run()

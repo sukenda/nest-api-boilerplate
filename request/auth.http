@@ -1,0 +1,32 @@
+## Register
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin",
+  "roles": [
+    "ADMIN",
+    "TEACHER"
+  ]
+}
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### Role
+GET http://localhost:3000/auth/roles
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlRFQUNIRVIiXSwidXNlcm5hbWUiOiJhZG1pbiIsInByb2ZpbGVOYW1lIjoiR3Vlc3QiLCJpYXQiOjE1OTAzODg5NzcsImV4cCI6MTU5MDQzMjE3N30.XVrK56dUpO-djNPuPfO9CGERqrN2AgpgGFI6pPAPagM
+
+### Menu
+GET http://localhost:3000/auth/menus
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlRFQUNIRVIiXSwidXNlcm5hbWUiOiJhZG1pbiIsInByb2ZpbGVOYW1lIjoiR3Vlc3QiLCJpYXQiOjE1OTAzODg5NzcsImV4cCI6MTU5MDQzMjE3N30.XVrK56dUpO-djNPuPfO9CGERqrN2AgpgGFI6pPAPagM
+###

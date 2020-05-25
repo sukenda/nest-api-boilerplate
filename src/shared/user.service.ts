@@ -1,14 +1,13 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { User } from '../model/user.entity';
+import { UserEntity } from '../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UserService {
 
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {
+  constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {
   }
 
   async doLogin(username: string, password: string) {

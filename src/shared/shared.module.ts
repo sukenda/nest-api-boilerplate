@@ -1,16 +1,20 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER, APP_INTERCEPTOR } from '@nestjs/core';
 
-import { HttpExceptionFilter } from './http-exception.filter';
-import { LoggingInterceptor } from './logging.interceptor';
+import { HttpExceptionFilter } from '../config/http-exception.filter';
+import { LoggingInterceptor } from '../config/logging.interceptor';
 import { UserService } from './user.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../model/user.entity';
+import { UserEntity } from '../entity/user.entity';
+import { RoleEntity } from '../entity/role.entity';
+import { MenuEntity } from '../entity/menu.entity';
+import { RoleService } from './role.service';
+import { MenuService } from './menu.service';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User])],
+  imports: [TypeOrmModule.forFeature([UserEntity, RoleEntity, MenuEntity])],
   providers: [
-    UserService,
+    RoleService, MenuService, UserService,
     {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
@@ -20,6 +24,6 @@ import { User } from '../model/user.entity';
       useClass: LoggingInterceptor,
     },
   ],
-  exports: [UserService],
+  exports: [UserService, RoleService, MenuService],
 })
 export class SharedModule {}

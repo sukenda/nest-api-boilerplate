@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UserService } from '../shared/user.service';
-import { User } from '../model/user.entity';
+import { UserEntity } from '../entity/user.entity';
 import { sign } from 'jsonwebtoken';
 import { Payload } from '../dto/payload';
 import { configService } from '../config/config.service';
@@ -14,7 +14,7 @@ export class AuthService {
     return sign(payload, configService.getKeySecret(), { expiresIn: '12h' });
   }
 
-  public async validate(param: User): Promise<User> {
+  async validate(param: Payload) {
     return await this.userService.findByUsername(param.username);
   }
 

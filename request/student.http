@@ -1,0 +1,20 @@
+## Register
+POST http://localhost:3000/students
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+### STUDENT AKES
+GET http://localhost:3000/students
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJTVFVERU5UIl0sInVzZXJuYW1lIjoic2lzd2EiLCJwcm9maWxlTmFtZSI6Ikd1ZXN0IiwiaWF0IjoxNTkwMzk3NTkyLCJleHAiOjE1OTA0NDA3OTJ9.YjDygBfLo_NTUxbIZlY7-diL9h16XU9ispfiy2E3JuA
+###
+
+### ADMIN AKES
+GET http://localhost:3000/students
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlcyI6WyJBRE1JTiIsIlRFQUNIRVIiXSwidXNlcm5hbWUiOiJhZG1pbiIsInByb2ZpbGVOYW1lIjoiR3Vlc3QiLCJpYXQiOjE1OTAzOTk4MjcsImV4cCI6MTU5MDQ0MzAyN30.3HNqni6iQd3tv4w8VfyWaOVxuC6ZgDt8mP97STWd_b0
+###
