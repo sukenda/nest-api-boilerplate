@@ -4,6 +4,8 @@ import { Reflector } from '@nestjs/core';
 @Injectable()
 export class RolesGuard implements CanActivate {
 
+  private readonly logger = new Logger(RolesGuard.name);
+
   constructor(private reflector: Reflector) {
   }
 
@@ -16,15 +18,15 @@ export class RolesGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user;
 
-    Logger.debug(roles.toString(), 'ACCESS GRANT ');
-    Logger.debug(user.roles.toString(), 'USER ACCESS ');
+    this.logger.debug(roles.toString(), 'ACCESS GRANT ');
+    this.logger.debug(user.roles.toString(), 'USER ACCESS ');
 
     const match: boolean = this.matchRoles(roles, user.roles);
     if (match) {
       return true;
     }
 
-    Logger.debug('User role not match');
+    this.logger.debug('User role not match');
 
     throw new HttpException('Unauthorized access', HttpStatus.UNAUTHORIZED);
 

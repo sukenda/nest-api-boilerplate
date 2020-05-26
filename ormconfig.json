@@ -7,7 +7,7 @@
   "database": "nest_api_boilerplate",
   "schema": "nest_boilerplate",
   "synchronize": false,
-  "logging": true,
+  "logging": ["query", "error"],
   "migrationsRun": false,
   "cache": false,
   "entities": [

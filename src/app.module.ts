@@ -3,12 +3,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configService } from './config/config.service';
-import { AuthModule } from './auth/auth.module';
-import { StudentModule } from './student/student.module';
+import { AuthModule } from './module/auth/auth.module';
+import { StudentModule } from './module/student/student.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     CacheModule.register(),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     AuthModule,

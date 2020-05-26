@@ -17,7 +17,9 @@ server.get('/_ah/health', (req, res) => res.send('OK'));
 server.get('/_ah/start', (req, res) => res.send('OK'));
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
+  const app = await NestFactory.create(AppModule, new ExpressAdapter(server), {
+    /*logger: ['error', 'warn', 'debug'],*/
+  });
   app.useGlobalInterceptors(new LoggingInterceptor())
   app.use(helmet())
   app.use(
@@ -34,7 +36,9 @@ async function bootstrap() {
       .setVersion('1.0')
       .build());
 
-    SwaggerModule.setup('docs', app, document);
+    SwaggerModule.setup('docs', app, document, {
+
+    });
   }
 
   await app.listen(3000);

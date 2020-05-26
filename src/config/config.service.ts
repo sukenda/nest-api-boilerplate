@@ -44,7 +44,7 @@ class ConfigService {
       database: this.getValue('POSTGRES_DATABASE'),
       schema: this.getValue('POSTGRES_SCHEMA'),
       synchronize: false,
-      logging: true,
+      logging: ["query", "error"],
       migrationsRun: false, // Disable run migrations automatically,
       cache: false,
 

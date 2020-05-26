@@ -1,13 +1,15 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { UserService } from '../shared/user.service';
 import { sign, verify } from 'jsonwebtoken';
-import { Payload } from '../dto/payload';
-import { configService } from '../config/config.service';
-import { Token } from '../dto/token';
-import { UserEntity } from '../entity/user.entity';
+import { Payload } from '../../dto/payload';
+import { configService } from '../../config/config.service';
+import { Token } from '../../dto/token';
+import { UserEntity } from '../../entity/user.entity';
 
 @Injectable()
 export class AuthService {
+
+  private readonly logger = new Logger(AuthService.name);
 
   constructor(private readonly userService: UserService) {
   }

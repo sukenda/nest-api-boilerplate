@@ -1,16 +1,16 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { UserDto } from '../dto/user.dto';
+import { UserDto } from '../../dto/user.dto';
 import { UserService } from '../shared/user.service';
-import { Payload } from '../dto/payload';
-import { ResponseBuilder } from '../dto/response';
+import { Payload } from '../../dto/payload';
+import { ResponseBuilder } from '../../dto/response';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from '../guards/roles.guard';
-import { Roles } from '../decorator/role.decorator';
+import { RolesGuard } from '../../guards/roles.guard';
+import { Roles } from '../../decorator/role.decorator';
 import { MenuService } from '../shared/menu.service';
 import { RoleService } from '../shared/role.service';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
 
   constructor(
@@ -20,7 +20,7 @@ export class AuthController {
     private authService: AuthService) {
   }
 
-  @Post('login')
+  @Post('auth/login')
   public async login(@Body() param: UserDto) {
     const user = await this.userService.doLogin(param.username, param.password);
     const payload: Payload = {
@@ -39,7 +39,7 @@ export class AuthController {
       .build();
   }
 
-  @Get('refresh-token')
+  @Get('auth/refresh-token')
   public async refreshToken(@Query('refreshToken') refreshToken: string) {
     const user = await this.authService.refreshToken(refreshToken);
     const payload: Payload = {
@@ -58,7 +58,7 @@ export class AuthController {
       .build();
   }
 
-  @Post('register')
+  @Post('auth/register')
   public async register(@Body() param: UserDto) {
     const user = await this.userService.doRegister(param);
     const payload: Payload = {

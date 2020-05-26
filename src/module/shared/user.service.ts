@@ -1,12 +1,14 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { UserEntity } from '../entity/user.entity';
+import { UserEntity } from '../../entity/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDto } from '../dto/user.dto';
-import { Payload } from '../dto/payload';
+import { UserDto } from '../../dto/user.dto';
+import { Payload } from '../../dto/payload';
 
 @Injectable()
 export class UserService {
+
+  private readonly logger = new Logger(UserService.name);
 
   constructor(@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>) {
   }

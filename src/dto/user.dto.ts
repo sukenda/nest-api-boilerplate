@@ -2,6 +2,7 @@ import { IsArray, IsEmail, IsString, IsUUID } from 'class-validator';
 import { UserEntity } from '../entity/user.entity';
 import { ApiModelProperty } from '@nestjs/swagger/dist/decorators/api-model-property.decorator';
 import { v4 as uuidv4 } from 'uuid';
+import { ProfileDto } from './profile.dto';
 
 export class UserDto implements Readonly<UserDto> {
 
@@ -22,10 +23,6 @@ export class UserDto implements Readonly<UserDto> {
   email: string;
 
   @ApiModelProperty({ required: false })
-  @IsString()
-  profileName: string;
-
-  @ApiModelProperty({ required: false })
   @IsArray()
   roles: string[];
 
@@ -33,14 +30,17 @@ export class UserDto implements Readonly<UserDto> {
   @IsString()
   refreshToken: string;
 
+  @ApiModelProperty({ required: false })
+  profile: ProfileDto;
+
   public static from(dto: Partial<UserDto>) {
     const it = new UserDto();
     it.id = dto.id;
     it.username = dto.username;
     it.password = dto.password;
     it.email = dto.email ? dto.email : `${dto.username}@gmail.com`;
-    it.profileName = dto.profileName ? dto.profileName : dto.username;
     it.roles = dto.roles;
+    it.profile = dto.profile ? dto.profile : null;
     return it;
   }
 
@@ -49,8 +49,8 @@ export class UserDto implements Readonly<UserDto> {
       id: entity.id,
       username: entity.username,
       email: entity.email,
-      profileName: entity.profileName,
       roles: entity.roles,
+      profile: entity.profile ? ProfileDto.fromEntity(entity.profile) : null,
     });
   }
 
@@ -60,7 +60,7 @@ export class UserDto implements Readonly<UserDto> {
     it.username = this.username;
     it.password = this.password;
     it.email = this.email;
-    it.profileName = this.profileName ? this.profileName : this.username;
+    it.profile = this.profile ? this.profile.toEntity() : null;
     it.roles = this.roles ? this.roles : roles ? roles : ['GUEST'];
     it.createdTime = new Date();
     it.createdBy = user ? user.id : uuidv4();
