@@ -4,11 +4,11 @@ import { UserDto } from '../../dto/user.dto';
 import { UserService } from '../shared/user.service';
 import { Payload } from '../../dto/payload';
 import { ResponseBuilder } from '../../dto/response';
-import { AuthGuard } from '@nestjs/passport';
 import { RolesGuard } from '../../guards/roles.guard';
 import { Roles } from '../../decorator/role.decorator';
 import { MenuService } from '../shared/menu.service';
 import { RoleService } from '../shared/role.service';
+import { AuthCustomGuard } from '../../guards/auth.custom.guard';
 
 @Controller()
 export class AuthController {
@@ -77,7 +77,7 @@ export class AuthController {
       .build();
   }
 
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(AuthCustomGuard, RolesGuard)
   @Roles('ADMIN', 'TEACHER', 'STUDENT')
   @Get('menus')
   public async menus() {
@@ -88,7 +88,7 @@ export class AuthController {
       .build();
   }
 
-  @UseGuards(AuthGuard('jwt'), RolesGuard)
+  @UseGuards(AuthCustomGuard, RolesGuard)
   @Roles('ADMIN')
   @Get('roles')
   public async roles() {
