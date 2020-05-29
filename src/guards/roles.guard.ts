@@ -29,12 +29,10 @@ export class RolesGuard implements CanActivate {
     this.logger.debug('User role not match');
 
     throw new HttpException('Unauthorized access', HttpStatus.UNAUTHORIZED);
-
   }
 
   public matchRoles(roles: string[], userRoles: string[]): boolean {
-    let value = userRoles.filter((role) => roles.includes(role));
-    return value.length != 0;
+    return roles.some(role => userRoles.includes(role));
   }
 
 }
