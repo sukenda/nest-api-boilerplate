@@ -16,7 +16,7 @@
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "pretypeorm": "(rm ormconfig.json || :) && ts-node -r tsconfig-paths/register src/scripts/generate.typeorm.config.ts",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "typeorm:migration": "npm run typeorm -- migration:generate -n",
+    "typeorm:migration": "npm run typeorm -- migration:generate -n Init",
     "typeorm:run": "npm run typeorm -- migration:run",
     "start:dev:seed": "ts-node -r tsconfig-paths/register src/scripts/seed.ts"
   },
